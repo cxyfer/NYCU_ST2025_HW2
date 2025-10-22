@@ -1,3 +1,5 @@
+from typing import Union
+
 class Calculator:
     def add(self, a: int, b: int) -> int:
         return a + b
@@ -8,7 +10,7 @@ class Calculator:
     def multiply(self, a: int, b: int) -> int:
         return a * b
     
-    def divide(self, a: int, b: int) -> float:
+    def divide(self, a: int, b: int) -> Union[int, float]:
         if float(b) == 0.0:
             return float('inf')
-        return a / b
+        return int(a / b) if a % b == 0 else a / b
