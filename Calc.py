@@ -27,7 +27,25 @@ class Calculator:
         return ops_map[op](a, b)
 
     def _parse_tokens(self, expression: str) -> list[str]:
-        return expression.split()
+        n = len(expression)
+        tokens = []
+        i = 0
+        while i < n:
+            if expression[i] == ' ':
+                i += 1
+                continue
+            if expression[i].isdigit():
+                j = i
+                while j < n and expression[j].isdigit():
+                    j += 1
+                tokens.append(expression[i:j])
+                i = j
+            elif expression[i] in "+-*/()":
+                tokens.append(expression[i])
+                i += 1
+            else:
+                raise ValueError(f"Invalid character: {expression[i]}")
+        return tokens
 
     def eval(self, expression: str) -> Union[int, float]:
         priority_map = {
