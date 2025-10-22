@@ -1,6 +1,5 @@
 from typing import Union
 
-
 class Calculator:
     def add(self, a: int, b: int) -> int:
         return a + b
@@ -26,3 +25,50 @@ class Calculator:
         if op not in ops_map:
             raise ValueError(f"Invalid operator: {op}")
         return ops_map[op](a, b)
+
+    @staticmethod
+    def _parse_tokens(expression: str) -> list[str]:
+        return expression.split()
+
+    def eval(self, expression: str) -> Union[int, float]:
+        priority_map = {
+            '(': 0,
+            '+': 1,
+            '-': 1,
+            '*': 2,
+            '/': 2,
+        }
+        
+        tokens = self._parse_tokens(expression)
+        nums, ops = [], []
+
+        def helper():
+            if len(nums) < 2 or len(ops) < 1:
+                raise ValueError("Invalid expression")
+            b, a = nums.pop(), nums.pop()
+            op = ops.pop()
+            nums.append(self.compute(a, b, op))
+
+        for i, token in enumerate(tokens):
+            if token.isdigit():
+                nums.append(int(token))
+            elif token == '(':
+                ops.append(token)
+            elif token == ')':
+                # calculate until meet '('
+                while ops and ops[-1] != '(':
+                    helper()
+                ops.pop()  # pop '('
+            elif token in priority_map:
+                # handle unary operator
+                if i == 0 or tokens[i-1] in ['(', '+', '-', '*', '/']:
+                    if token == '+' or token == '-':
+                        nums.append(0)
+                while ops and priority_map[ops[-1]] >= priority_map[token]:
+                    helper()
+                ops.append(token)
+            else:
+                raise ValueError(f"Invalid token: {token}")
+        while ops:
+            helper()
+        return nums[0]
