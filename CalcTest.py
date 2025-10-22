@@ -26,5 +26,9 @@ class TestCalculator(unittest.TestCase):
         result = calc.divide(10, 0)
         self.assertEqual(result, float('inf'))  # Expect 10 ÷ 0 = inf
 
+    def test_failing(self):
+        """This test is designed to fail."""
+        self.assertEqual(1 + 1, 3)
+
 if __name__ == "__main__":
     unittest.main()
