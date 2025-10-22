@@ -20,7 +20,8 @@ class TestCalculator(unittest.TestCase):
     def test_divide(self):
         calc = Calculator()
         result = calc.divide(10, 2)
-        self.assertEqual(result, 5.0)  # Expect 10 ÷ 2 = 5.0 (float)
+        self.assertEqual(result, 5)  # Expect 10 ÷ 2 = 5 (int)
+        self.assertIsInstance(result, int)  # Expect result to be an integer
         result = calc.divide(10, 3)
         self.assertAlmostEqual(result, 3.333333, places=5)  # Expect 10 ÷ 3 ≈ 3.33333
         result = calc.divide(10, 0)
