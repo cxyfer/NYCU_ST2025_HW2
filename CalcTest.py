@@ -24,9 +24,23 @@ class TestCalculator(unittest.TestCase):
         self.assertEqual(result, 5)  # Expect 10 ÷ 2 = 5 (int)
         self.assertIsInstance(result, int)  # Expect result to be an integer
         result = calc.divide(10, 3)
-        self.assertAlmostEqual(result, 3.333333, places=5)  # Expect 10 ÷ 3 ≈ 3.33333
+        # Expect 10 ÷ 3 ≈ 3.33333
+        self.assertAlmostEqual(result, 3.333333, places=5)
         result = calc.divide(10, 0)
         self.assertEqual(result, float("inf"))  # Expect 10 ÷ 0 = inf
+
+    def test_compute(self):
+        calc = Calculator()
+        result = calc.compute(1, 2, "+")
+        self.assertEqual(result, 3)
+        result = calc.compute(1, 2, "-")
+        self.assertEqual(result, -1)
+        result = calc.compute(1, -2, "*")
+        self.assertEqual(result, -2)
+        result = calc.compute(1, 2, "/")
+        self.assertEqual(result, 0.5)
+        with self.assertRaises(ValueError):
+            calc.compute(1, 2, "$")
 
 
 if __name__ == "__main__":
