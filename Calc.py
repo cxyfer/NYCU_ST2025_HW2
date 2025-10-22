@@ -26,8 +26,7 @@ class Calculator:
             raise ValueError(f"Invalid operator: {op}")
         return ops_map[op](a, b)
 
-    @staticmethod
-    def _parse_tokens(expression: str) -> list[str]:
+    def _parse_tokens(self, expression: str) -> list[str]:
         return expression.split()
 
     def eval(self, expression: str) -> Union[int, float]:
